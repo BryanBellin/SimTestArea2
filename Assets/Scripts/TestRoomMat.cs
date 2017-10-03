@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public class ClassDoorMatInteraction : MonoBehaviour {
+public class TestRoomMat : MonoBehaviour {
 
     public Transform Player;
     public GameObject ActionDisplay;
@@ -11,14 +10,14 @@ public class ClassDoorMatInteraction : MonoBehaviour {
     public GameObject Background;
     public GameObject ResultText;
     public GameObject ContinueReminder;
-    public int MajorProficiencyIncreaseValue;
+
 
     private static int Prompt = 0;
     private static int Continue = 0;
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
             ActionDisplay.SetActive(true);
             ActionText.SetActive(true);
@@ -36,28 +35,33 @@ public class ClassDoorMatInteraction : MonoBehaviour {
         }
     }
 
-    private void Update()
+    // Use this for initialization
+    void Start () {
+		
+	}
+
+    // Update is called once per frame
+    void Update()
     {
-        if(Prompt == 1)
+        if (Prompt == 1)
         {
-            if(Input.GetButtonDown ("Interact"))
+            if (Input.GetButtonDown("Interact"))
             {
                 ActionDisplay.SetActive(false);
                 ActionText.SetActive(false);
                 Background.SetActive(true);
                 ResultText.SetActive(true);
                 ContinueReminder.SetActive(true);
-                
-            }
-            if (Input.GetButtonUp ("Interact"))
-            {
-                MajorProficiencyIncreaseValue = Mathf.RoundToInt(Random.Range(1, 5));
-                gameObject.SendMessageUpwards("UpdateMajorProficiency", MajorProficiencyIncreaseValue);
-                //UpdateMajorProficiency();
-                Continue = 1;
 
             }
-            if(Continue == 1)
+            if (Input.GetButtonUp("Interact"))
+            {
+                Continue = 1;
+                //MajorProficiencyIncreaseValue = Mathf.RoundToInt(Random.Range(1, 5));
+                gameObject.SendMessageUpwards("RequestTakeTest");
+                //UpdateMajorProficiency();
+            }
+            if (Continue == 1)
             {
                 if (Input.anyKeyDown)
                 {
@@ -69,8 +73,16 @@ public class ClassDoorMatInteraction : MonoBehaviour {
                     Prompt = 0;
                 }
             }
-            
         }
     }
 
+    void TakeTest(int CurrentMajorValue)
+    {
+        print("Taking Test -Doormat");
+        print(CurrentMajorValue);
+        if (CurrentMajorValue >= 10)
+        {
+
+        }
+    }
 }

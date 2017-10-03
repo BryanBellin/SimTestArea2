@@ -23,4 +23,10 @@ public class Stats : MonoBehaviour {
         MajorProficiencyValue = MajorProficiencyValue + value;
         MajorProficiencyText.text = "Major Proficiency: " + MajorProficiencyValue.ToString() + "/12320";
     }
+
+    void RequestTakeTest()
+    {
+        print("Taking Test -IRIS");
+        BroadcastMessage("TakeTest", MajorProficiencyValue);
+    }
 }
