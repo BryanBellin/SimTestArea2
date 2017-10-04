@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class ClassDoorMatInteraction : MonoBehaviour {
@@ -9,12 +10,23 @@ public class ClassDoorMatInteraction : MonoBehaviour {
     public GameObject ActionDisplay;
     public GameObject ActionText;
     public GameObject Background;
-    public GameObject ResultText;
+    public Text ResultText;
     public GameObject ContinueReminder;
+    //public Text txtref;
     public int MajorProficiencyIncreaseValue;
 
     private static int Prompt = 0;
     private static int Continue = 0;
+    private static int score;
+    private static int TestDay;
+
+    void Start()
+    {
+        //txtref = GetComponent<Text>();
+        ResultText.text = "";
+        TestDay = 0;
+        //txtref = GameObject.Find("Class Result Text").GetComponent<Text>();
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -22,7 +34,6 @@ public class ClassDoorMatInteraction : MonoBehaviour {
         {
             //print("Checking Class Availability");
             SendMessageUpwards("CheckClassFlag");
-            
         }
     }
 
@@ -42,16 +53,27 @@ public class ClassDoorMatInteraction : MonoBehaviour {
         {
             if(Input.GetButtonDown ("Interact"))
             {
+                
                 ActionDisplay.SetActive(false);
                 ActionText.SetActive(false);
                 Background.SetActive(true);
-                ResultText.SetActive(true);
+                if(TestDay != 1)
+                {
+                    MajorProficiencyIncreaseValue = Mathf.RoundToInt(Random.Range(1, 5));
+                    ResultText.text = "You attend class for an hour.\nYour Major Proficiency increases by " + MajorProficiencyIncreaseValue + ".";
+                }
+                else
+                {
+                    ResultText.text = "You take a test and score " + score + "%";
+                    TestDay = 0;
+                }
+
+                //ResultText.SetActive(true);
                 ContinueReminder.SetActive(true);
             }
             if (Input.GetButtonUp ("Interact"))
             {
                 print("Attending Class");
-                MajorProficiencyIncreaseValue = Mathf.RoundToInt(Random.Range(1, 5));
                 SendMessageUpwards("UpdateMajorProficiency", MajorProficiencyIncreaseValue);
                 //UpdateMajorProficiency();
                 Continue = 1;
@@ -60,9 +82,12 @@ public class ClassDoorMatInteraction : MonoBehaviour {
             {
                 if (Input.anyKeyDown)
                 {
+                    
                     Background.SetActive(false);
-                    ResultText.SetActive(false);
+                    ResultText.text = "";
+                    //ResultText.SetActive(false);
                     ContinueReminder.SetActive(false);
+
                     Player.position = new Vector3(0, 0, 0);
                     Continue = 0;
                     Prompt = 0;
@@ -78,6 +103,17 @@ public class ClassDoorMatInteraction : MonoBehaviour {
         ActionDisplay.SetActive(true);
         ActionText.SetActive(true);
         Prompt = 1;
+    }
+
+    void ChangeUIforTest(int value)
+    {
+        TestDay = 1;
+        ActionDisplay.SetActive(true);
+        ActionText.SetActive(true);
+        Prompt = 1;
+        score = value * 100 / 10;
+        
+        //ResultText. = "You take a test and score " + score + "%";
     }
 
 }

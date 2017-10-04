@@ -44,7 +44,7 @@ public class Stats : MonoBehaviour {
             if (Day == TestDay)
             {
                 print("Test Day");
-                BroadcastMessage("ChangeUIforTest");
+                BroadcastMessage("ChangeUIforTest", MajorProficiencyValue);
             }
             else
             {
