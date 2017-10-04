@@ -20,7 +20,7 @@ public class ClassDoorMatInteraction : MonoBehaviour {
     {
         if(collision.gameObject.CompareTag("Player"))
         {
-            print("Checking Class Availability");
+            //print("Checking Class Availability");
             SendMessageUpwards("CheckClassFlag");
             
         }

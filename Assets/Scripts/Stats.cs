@@ -11,6 +11,7 @@ public class Stats : MonoBehaviour {
 
     public int AttendedClass;
     public int Day;
+    public int TestDay = 3;
 
     // Use this for initialization
     void Start () {
@@ -40,8 +41,17 @@ public class Stats : MonoBehaviour {
     {
         if (AttendedClass == 0)
         {
-            print("Class Available");
-            BroadcastMessage("PromptClassInteract");
+            if (Day == TestDay)
+            {
+                print("Test Day");
+                BroadcastMessage("ChangeUIforTest");
+            }
+            else
+            {
+                print("Class Available");
+                BroadcastMessage("PromptClassInteract");
+            }
+
         }
         else
         {
