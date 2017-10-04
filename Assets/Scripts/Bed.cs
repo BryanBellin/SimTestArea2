@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestRoomMat : MonoBehaviour {
+public class Bed : MonoBehaviour {
 
     public Transform Player;
     public GameObject ActionDisplay;
@@ -10,7 +10,6 @@ public class TestRoomMat : MonoBehaviour {
     public GameObject Background;
     public GameObject ResultText;
     public GameObject ContinueReminder;
-
 
     private static int Prompt = 0;
     private static int Continue = 0;
@@ -39,10 +38,9 @@ public class TestRoomMat : MonoBehaviour {
     void Start () {
 		
 	}
-
-    // Update is called once per frame
-    void Update()
-    {
+	
+	// Update is called once per frame
+	void Update () {
         if (Prompt == 1)
         {
             if (Input.GetButtonDown("Interact"))
@@ -52,14 +50,12 @@ public class TestRoomMat : MonoBehaviour {
                 Background.SetActive(true);
                 ResultText.SetActive(true);
                 ContinueReminder.SetActive(true);
-
             }
             if (Input.GetButtonUp("Interact"))
             {
+                print("Sleeping");
+                SendMessageUpwards("UpdateTime");
                 Continue = 1;
-                //MajorProficiencyIncreaseValue = Mathf.RoundToInt(Random.Range(1, 5));
-                gameObject.SendMessageUpwards("RequestTakeTest");
-                //UpdateMajorProficiency();
             }
             if (Continue == 1)
             {
@@ -73,16 +69,6 @@ public class TestRoomMat : MonoBehaviour {
                     Prompt = 0;
                 }
             }
-        }
-    }
-
-    void TakeTest(int CurrentMajorValue)
-    {
-        print("Taking Test -Doormat");
-        print(CurrentMajorValue);
-
-        if (CurrentMajorValue >= 10)
-        {
 
         }
     }

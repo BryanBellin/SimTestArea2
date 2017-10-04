@@ -20,9 +20,9 @@ public class ClassDoorMatInteraction : MonoBehaviour {
     {
         if(collision.gameObject.CompareTag("Player"))
         {
-            ActionDisplay.SetActive(true);
-            ActionText.SetActive(true);
-            Prompt = 1;
+            print("Checking Class Availability");
+            SendMessageUpwards("CheckClassFlag");
+            
         }
     }
 
@@ -47,15 +47,14 @@ public class ClassDoorMatInteraction : MonoBehaviour {
                 Background.SetActive(true);
                 ResultText.SetActive(true);
                 ContinueReminder.SetActive(true);
-                
             }
             if (Input.GetButtonUp ("Interact"))
             {
+                print("Attending Class");
                 MajorProficiencyIncreaseValue = Mathf.RoundToInt(Random.Range(1, 5));
-                gameObject.SendMessageUpwards("UpdateMajorProficiency", MajorProficiencyIncreaseValue);
+                SendMessageUpwards("UpdateMajorProficiency", MajorProficiencyIncreaseValue);
                 //UpdateMajorProficiency();
                 Continue = 1;
-
             }
             if(Continue == 1)
             {
@@ -67,10 +66,18 @@ public class ClassDoorMatInteraction : MonoBehaviour {
                     Player.position = new Vector3(0, 0, 0);
                     Continue = 0;
                     Prompt = 0;
+                    SendMessageUpwards("ReportAttendedClass");
                 }
             }
             
         }
+    }
+
+    void PromptClassInteract()
+    {
+        ActionDisplay.SetActive(true);
+        ActionText.SetActive(true);
+        Prompt = 1;
     }
 
 }
